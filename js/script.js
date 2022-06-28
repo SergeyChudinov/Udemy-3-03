@@ -47,11 +47,11 @@ function hideTabContent() {
     })
 };
 function showTabContent(i = 0) {
-    tabsContsnt[i].classList.toggle('hide');
+    tabsContsnt[i].classList.remove('hide');
     tabsContsnt[i].classList.add('fade');
     tabs[i].classList.toggle('tabheader__item_active');
 }
-function abc() {
+function eventListener() {
     tabsParent.addEventListener('click', event => {
         if (!event.target.closest('.tabheader__item')) {
             return;
@@ -66,6 +66,6 @@ function abc() {
 }
 hideTabContent();
 showTabContent();
-abc();
+eventListener();
 
 tabsContsnt[3].src = "img/tabs/hamburger.jpg";
