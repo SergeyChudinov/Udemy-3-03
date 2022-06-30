@@ -188,16 +188,19 @@ setClock('.timer', deadLine);
 const modalTrigger = document.querySelectorAll('[data-modal]');
 const modal = document.querySelector('.modal');
 const modalCloseBtn = document.querySelector('[data-close]');
-modalTrigger.forEach(el => {
-    el.addEventListener('click', () => {
-        modal.classList.toggle('show');
-        document.body.style.overflow = 'hidden';
-    })
-});
+function openModal() {
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    clearTimeout(modalTimerId);
+    window.removeEventListener('scroll', showModalByScroll);
+}
 function closeModal() {
-    modal.classList.toggle('show');
+    modal.classList.remove('show');
     document.body.style.overflow = '';
 };
+modalTrigger.forEach(el => {
+    el.addEventListener('click', openModal);
+});
 modalCloseBtn.addEventListener('click', closeModal);
 modal.addEventListener('click', event => {
     if (event.target.closest('.modal__dialog')) {
@@ -210,3 +213,12 @@ document.addEventListener('keydown', (e) => {
         closeModal();
     }
 });
+modalTimerId = setTimeout(openModal, 5000);
+function showModalByScroll() {
+    if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+        openModal();
+        window.removeEventListener('scroll', showModalByScroll);
+    }
+}
+window.addEventListener('scroll', showModalByScroll);
+// , {once: true}
