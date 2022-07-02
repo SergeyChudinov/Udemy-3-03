@@ -134,7 +134,7 @@ tabsContsnt[3].src = "img/tabs/hamburger.jpg";
 // }
 
 // const deadLine = '2022-06-28 17:29';
-const deadLine = '2022-07-28 00:00';
+const deadLine = '2022-07-22 20:00';
 function getTimeRemaining(endtime) {
     const t = Date.parse(endtime)- Date.parse(new Date()),
         days = Math.floor((t / (1000 * 60 * 60 * 24))),
@@ -223,8 +223,8 @@ function showModalByScroll() {
 window.addEventListener('scroll', showModalByScroll);
 // , {once: true}
 
-const menu1 = document.querySelector('.menu__field .container');
-menu1.innerHTML = '';
+const menu = document.querySelector('.menu__field .container');
+menu.innerHTML = '';
 class Menu {
     constructor(img, alt, header, text, price, parentSelector) {
         this.img = img;
@@ -239,11 +239,12 @@ class Menu {
     chsngeToUAH() {
         this.price = this.price * this.transfer;
     }
-    drawElements() {
-        menu1.innerHTML += this.getMarkup();
-    }
+    // drawElements() {
+    //     menu.innerHTML += this.getMarkup();
+    // }
     getMarkup() {
-        return `
+        const element = document.createElement('div');
+        element.innerHTML =  `
             <div class="menu__item">
                 <img src=${this.img} alt=${this.alt}>
                 <h3 class="menu__item-subtitle">${this.header}</h3>
@@ -254,7 +255,8 @@ class Menu {
                     <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
                 </div>
             </div>
-        `
+        `;
+        this.parent.append(element);
     }
 }
 const fitnessMenu = new Menu(
@@ -262,19 +264,22 @@ const fitnessMenu = new Menu(
 'vegy',
 'Меню "Фитнес"', 
 'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-'229');
+'229',
+'.menu__field .container');
 const premiumMenu = new Menu(
 "img/tabs/elite.jpg",
 'elite',
 'Меню “Премиум”', 
 'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-'550');
+'550',
+'.menu__field .container');
 const leanMenu = new Menu(
 "img/tabs/post.jpg",
 'post',
 'Меню "Постное"', 
 'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-'430');
-fitnessMenu.drawElements();
-premiumMenu.drawElements();
-leanMenu.drawElements();
+'430',
+'.menu__field .container');
+fitnessMenu.getMarkup();
+premiumMenu.getMarkup();
+leanMenu.getMarkup();
