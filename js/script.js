@@ -49,7 +49,7 @@ function hideTabContent() {
 function showTabContent(i = 0) {
     tabsContsnt[i].classList.remove('hide');
     tabsContsnt[i].classList.add('fade');
-    tabs[i].classList.toggle('tabheader__item_active');
+    tabs[i].classList.add('tabheader__item_active');
 }
 function eventListener() {
     tabsParent.addEventListener('click', event => {
@@ -74,8 +74,8 @@ tabsContsnt[3].src = "img/tabs/hamburger.jpg";
 // let timerMinutes = document.querySelector('#minutes');
 // let timerHours = document.querySelector('#hours');
 // let timerDays = document.querySelector('#days');
-// const deadLine = '2022-06-28 19:27';
-// // const deadLine = '2022-07-28 00:00';
+// // const deadLine = '2022-06-28 19:27';
+// const deadLine = '2022-07-28 00:00';
 // function getTimeRemaining(endtime) {
 //     let t = Date.parse(endtime)- Date.parse(new Date()); 
 //     if (t < 0) {
@@ -86,14 +86,14 @@ tabsContsnt[3].src = "img/tabs/hamburger.jpg";
 //         timerDays.textContent = 0;
 //         return;
 //     }
-//     timerSeconds.textContent = ('0' + Math.floor((t / (1000)) % 60)).slice(-2);
-//     timerMinutes.textContent = ('0' + Math.floor((t / (1000 * 60)) % 60)).slice(-2);
-//     timerHours.textContent = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
-//     timerDays.textContent = ('0' + Math.floor((t / (1000 * 60 * 60 * 24)))).slice(-2);
-//     // timerSeconds.textContent = Math.floor((t / (1000)) % 60);
-//     // timerMinutes.textContent = Math.floor((t / (1000 * 60)) % 60);
-//     // timerHours.textContent = Math.floor((t / (1000 * 60 * 60)) % 24);
-//     // timerDays.textContent = Math.floor((t / (1000 * 60 * 60 * 24)));
+//     // timerSeconds.textContent = ('0' + Math.floor((t / (1000)) % 60)).slice(-2);
+//     // timerMinutes.textContent = ('0' + Math.floor((t / (1000 * 60)) % 60)).slice(-2);
+//     // timerHours.textContent = ('0' + Math.floor((t / (1000 * 60 * 60)) % 24)).slice(-2);
+//     // timerDays.textContent = ('0' + Math.floor((t / (1000 * 60 * 60 * 24)))).slice(-2);
+//     timerSeconds.textContent = Math.floor((t / (1000)) % 60);
+//     timerMinutes.textContent = Math.floor((t / (1000 * 60)) % 60);
+//     timerHours.textContent = Math.floor((t / (1000 * 60 * 60)) % 24);
+//     timerDays.textContent = Math.floor((t / (1000 * 60 * 60 * 24)));
 // }
 // getTimeRemaining(deadLine);
 // timerId = setInterval(seconds, 1000);
@@ -217,8 +217,64 @@ modalTimerId = setTimeout(openModal, 5000);
 function showModalByScroll() {
     if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
         openModal();
-        window.removeEventListener('scroll', showModalByScroll);
+        // window.removeEventListener('scroll', showModalByScroll);
     }
 }
 window.addEventListener('scroll', showModalByScroll);
 // , {once: true}
+
+const menu1 = document.querySelector('.menu__field .container');
+menu1.innerHTML = '';
+class Menu {
+    constructor(img, alt, header, text, price, parentSelector) {
+        this.img = img;
+        this.alt = alt;
+        this.header = header;
+        this.text = text;
+        this.price = price;
+        this.parent = document.querySelector(parentSelector);
+        this.transfer = 27;
+        this.chsngeToUAH();
+    }
+    chsngeToUAH() {
+        this.price = this.price * this.transfer;
+    }
+    drawElements() {
+        menu1.innerHTML += this.getMarkup();
+    }
+    getMarkup() {
+        return `
+            <div class="menu__item">
+                <img src=${this.img} alt=${this.alt}>
+                <h3 class="menu__item-subtitle">${this.header}</h3>
+                <div class="menu__item-descr">${this.text}</div>
+                <div class="menu__item-divider"></div>
+                <div class="menu__item-price">
+                    <div class="menu__item-cost">Цена:</div>
+                    <div class="menu__item-total"><span>${this.price}</span> руб/день</div>
+                </div>
+            </div>
+        `
+    }
+}
+const fitnessMenu = new Menu(
+"img/tabs/vegy.jpg",
+'vegy',
+'Меню "Фитнес"', 
+'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+'229');
+const premiumMenu = new Menu(
+"img/tabs/elite.jpg",
+'elite',
+'Меню “Премиум”', 
+'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+'550');
+const leanMenu = new Menu(
+"img/tabs/post.jpg",
+'post',
+'Меню "Постное"', 
+'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+'430');
+fitnessMenu.drawElements();
+premiumMenu.drawElements();
+leanMenu.drawElements();
