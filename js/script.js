@@ -58,9 +58,9 @@ function eventListener() {
         }
         tabs.forEach((item, index) => {
             if (event.target == item) {
-                hideTabContent();                       
-                showTabContent(index); 
-            }    
+                hideTabContent();
+                showTabContent(index);
+            }
         })
     })
 }
@@ -135,8 +135,9 @@ tabsContsnt[3].src = "img/tabs/hamburger.jpg";
 
 // const deadLine = '2022-06-28 17:29';
 const deadLine = '2022-07-22 20:00';
+
 function getTimeRemaining(endtime) {
-    const t = Date.parse(endtime)- Date.parse(new Date()),
+    const t = Date.parse(endtime) - Date.parse(new Date()),
         days = Math.floor((t / (1000 * 60 * 60 * 24))),
         hours = Math.floor((t / (1000 * 60 * 60)) % 24),
         minutes = Math.floor((t / (1000 * 60)) % 60),
@@ -149,6 +150,7 @@ function getTimeRemaining(endtime) {
         seconds: seconds
     }
 }
+
 function getZero(num) {
     if (num >= 0 && num < 10) {
         return `0${num}`;
@@ -156,14 +158,16 @@ function getZero(num) {
         return num;
     }
 }
+
 function setClock(selector, endtime) {
     const timer = document.querySelector(selector),
-          days = timer.querySelector('#days'),
-          hours = timer.querySelector('#hours'),
-          minutes = timer.querySelector('#minutes'),
-          seconds = timer.querySelector('#seconds');
+        days = timer.querySelector('#days'),
+        hours = timer.querySelector('#hours'),
+        minutes = timer.querySelector('#minutes'),
+        seconds = timer.querySelector('#seconds');
     timeInterval = setInterval(updateClock, 1000);
     updateClock();
+
     function updateClock() {
         const t = getTimeRemaining(endtime);
         // days.textContent = ('0' + t.days).slice(-2);
@@ -188,12 +192,14 @@ setClock('.timer', deadLine);
 const modalTrigger = document.querySelectorAll('[data-modal]');
 const modal = document.querySelector('.modal');
 const modalCloseBtn = document.querySelector('[data-close]');
+
 function openModal() {
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
     clearTimeout(modalTimerId);
     window.removeEventListener('scroll', showModalByScroll);
 }
+
 function closeModal() {
     modal.classList.remove('show');
     document.body.style.overflow = '';
@@ -214,6 +220,7 @@ document.addEventListener('keydown', (e) => {
     }
 });
 modalTimerId = setTimeout(openModal, 5000);
+
 function showModalByScroll() {
     if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
         openModal();
@@ -243,7 +250,7 @@ class Menu {
     // drawElements() {
     //     menu.innerHTML += this.getMarkup();
     // }
-    getMarkup() {
+    render() {
         const element = document.createElement('div');
         if (this.classes.length === 0) {
             this.element = 'menu__item';
@@ -251,7 +258,7 @@ class Menu {
         } else {
             this.classes.forEach(className => element.classList.add(className))
         }
-        element.innerHTML =  `
+        element.innerHTML = `
             <img src=${this.img} alt=${this.alt}>
             <h3 class="menu__item-subtitle">${this.header}</h3>
             <div class="menu__item-descr">${this.text}</div>
@@ -265,32 +272,85 @@ class Menu {
     }
 }
 const fitnessMenu = new Menu(
-"img/tabs/vegy.jpg",
-'vegy',
-'Меню "Фитнес"', 
-'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
-'229',
-'.menu__field .container',
-'menu__item',
-'big');
+    "img/tabs/vegy.jpg",
+    'vegy',
+    'Меню "Фитнес"',
+    'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
+    '229',
+    '.menu__field .container',
+    'menu__item',
+    'big');
 const premiumMenu = new Menu(
-"img/tabs/elite.jpg",
-'elite',
-'Меню “Премиум”', 
-'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
-'550',
-'.menu__field .container',
-'menu__item',
-'big');
+    "img/tabs/elite.jpg",
+    'elite',
+    'Меню “Премиум”',
+    'В меню “Премиум” мы используем не только красивый дизайн упаковки, но и качественное исполнение блюд. Красная рыба, морепродукты, фрукты - ресторанное меню без похода в ресторан!',
+    '550',
+    '.menu__field .container',
+    'menu__item',
+    'big');
 const leanMenu = new Menu(
-"img/tabs/post.jpg",
-'post',
-'Меню "Постное"', 
-'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
-'430',
-'.menu__field .container',
-'menu__item',
-'big');
-fitnessMenu.getMarkup();
-premiumMenu.getMarkup();
-leanMenu.getMarkup();
+    "img/tabs/post.jpg",
+    'post',
+    'Меню "Постное"',
+    'Меню “Постное” - это тщательный подбор ингредиентов: полное отсутствие продуктов животного происхождения, молоко из миндаля, овса, кокоса или гречки, правильное количество белков за счет тофу и импортных вегетарианских стейков.',
+    '430',
+    '.menu__field .container',
+    'menu__item',
+    'big');
+fitnessMenu.render();
+premiumMenu.render();
+leanMenu.render();
+
+const forms = document.querySelectorAll('form');
+const message = {
+    loading: 'Загрузка',
+    success: 'Спасибо! Скоро мы с вами свяжемся',
+    failure: 'Что-то пошло не так...'
+};
+forms.forEach(item => {
+    postData(item);
+});
+
+function postData(form) {
+    form.addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const statusMessage = document.createElement('div');
+        statusMessage.classList.add('status');
+        statusMessage.textContent = message.loading;
+        form.append(statusMessage);
+
+        const request = new XMLHttpRequest();
+        request.open('POST', 'server.php');
+
+        // request.setRequestHeader('Content-type', 'multipart/form-data');
+        request.setRequestHeader('Content-type', 'application/json');
+        const formData = new FormData(form);
+
+        console.log(form);
+        const object = {};
+        formData.forEach(function(value, key) {
+            object[key] = value;
+        });
+        console.log(object);
+        const json = JSON.stringify(object);
+
+        request.send(json);
+        request.addEventListener('load', () => {
+            if (request.status === 200) {
+                console.log(request.response);
+                statusMessage.textContent = message.success;
+                form.reset();
+                document.querySelectorAll('input').forEach(el => {
+                    el.value = '';
+                });
+                setTimeout(() => {
+                    statusMessage.remove();
+                }, 2000);
+            } else {
+                statusMessage.textContent = message.failure;
+            }
+        })
+    });
+}
