@@ -325,7 +325,7 @@ window.addEventListener('DOMContentLoaded', () => {
                 display: block;
                 margin: 0 auto;
             `;
-            form.append(statusMessage);
+            form.after(statusMessage);
 
             const request = new XMLHttpRequest();
             request.open('POST', 'server.php');
@@ -382,7 +382,7 @@ window.addEventListener('DOMContentLoaded', () => {
         modelDialogTimer = setTimeout(() => {
             modelDialog();
             closeModal();
-        }, 400000)
+        }, 4000)
     }
     function modelDialog() {
         thanksModal.remove();
