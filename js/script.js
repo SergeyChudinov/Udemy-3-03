@@ -385,4 +385,7 @@ window.addEventListener('DOMContentLoaded', () => {
         thanksModal.remove();
         prevModalDialog.classList.remove('hide');
     }
+    fetch('http://localhost:3000/menu')
+        .then(data => data.json())
+        .then(res => console.log(res))
 });
