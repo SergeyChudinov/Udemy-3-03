@@ -250,9 +250,6 @@ window.addEventListener('DOMContentLoaded', () => {
         chsngeToUAH() {
             this.price = this.price * this.transfer;
         }
-        // drawElements() {
-        //     menu.innerHTML += this.getMarkup();
-        // }
         render() {
             const element = document.createElement('div');
             if (this.classes.length === 0) {
@@ -275,17 +272,24 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     }
 
-    const getResource = async (url) => {
-        const res = await fetch(url);
-        if (!res.ok) {
-            throw new Error(`Could not fetch ${url}, ststus: ${res.status}`);
-        };
+    // const getResource = async (url) => {
+    //     const res = await fetch(url);
+    //     if (!res.ok) {
+    //         throw new Error(`Could not fetch ${url}, ststus: ${res.status}`);
+    //     };
 
-        return await res.json();
-    };
-    getResource('http://localhost:3000/menu')
+    //     return await res.json();
+    // };
+    // getResource('http://localhost:3000/menu')
+    //     .then(data => {
+    //         data.forEach(({img, altimg, title, descr, price}) => {
+    //             new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
+    //         });
+    //     });
+
+    axios.get('http://localhost:3000/menu')
         .then(data => {
-            data.forEach(({img, altimg, title, descr, price}) => {
+            data.data.forEach(({img, altimg, title, descr, price}) => {
                 new MenuCard(img, altimg, title, descr, price, '.menu .container').render();
             });
         });
