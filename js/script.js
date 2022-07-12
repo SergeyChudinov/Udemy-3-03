@@ -384,7 +384,9 @@ window.addEventListener('DOMContentLoaded', () => {
     const sliders = document.querySelectorAll('.offer__slide');
     const offer__slider__prev = document.querySelector('.offer__slider-prev');
     const offer__slider__next = document.querySelector('.offer__slider-next');
-    const current = document.querySelector('#current');
+    const current = document.querySelector('#current'); 
+    const total = document.querySelector('#total');
+    total.textContent = ('0' + sliders.length).slice(-2);
     let index = 0;
     function hideSlaiders() {
         sliders.forEach(el => {
@@ -397,15 +399,15 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     offer__slider__prev.addEventListener('click', () => {
         index--;
-        if (index == -1) {
-            index = 3;
+        if (index < 0) {
+            index = sliders.length - 1;
         }
         hideSlaiders();
         showSlaiders(index);
     });
     offer__slider__next.addEventListener('click', () => {
         index++;
-        if (index == 4) {
+        if (index == sliders.length) {
             index = 0;
         }
         hideSlaiders();
@@ -413,4 +415,7 @@ window.addEventListener('DOMContentLoaded', () => {
     });
     hideSlaiders();
     showSlaiders();
+
+
+    
 });
