@@ -382,40 +382,99 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     
     const sliders = document.querySelectorAll('.offer__slide');
-    const offer__slider__prev = document.querySelector('.offer__slider-prev');
-    const offer__slider__next = document.querySelector('.offer__slider-next');
+    const prev = document.querySelector('.offer__slider-prev');
+    const next = document.querySelector('.offer__slider-next');
     const current = document.querySelector('#current'); 
     const total = document.querySelector('#total');
-    total.textContent = ('0' + sliders.length).slice(-2);
+    // total.textContent = ('0' + sliders.length).slice(-2);
+    if (sliders.length < 10) {
+        total.textContent = `0${sliders.length}`;
+    } else {
+        total.textContent = sliders.length;
+    }
     let index = 0;
-    function hideSlaiders() {
-        sliders.forEach(el => {
-            el.classList.add('hide');
-        });
-    };
-    function showSlaiders(i = 0) {
-        sliders[i].classList.remove('hide');
-        current.textContent = ('0' + (i + 1)).slice(-2);
-    };
-    offer__slider__prev.addEventListener('click', () => {
-        index--;
-        if (index < 0) {
+
+    // function hideSlaiders() {
+    //     sliders.forEach(el => {
+    //         el.classList.add('hide');
+    //     });
+    // };
+    // function showSlaiders(i = 0) {
+    //     sliders[i].classList.remove('hide');
+    //     // current.textContent = ('0' + (i + 1)).slice(-2);
+    //     if (sliders.length < 10) {
+    //         current.textContent = `0${i + 1}`;
+    //     } else {
+    //         current.textContent = i + 1;
+    //     }
+    // };
+    // prev.addEventListener('click', () => {
+    //     index--;
+    //     if (index < 0) {
+    //         index = sliders.length - 1;
+    //     }
+    //     hideSlaiders();
+    //     showSlaiders(index);
+    // });
+    // next.addEventListener('click', () => {
+    //     index++;
+    //     if (index == sliders.length) {
+    //         index = 0;
+    //     }
+    //     hideSlaiders();
+    //     showSlaiders(index);
+    // });
+    // hideSlaiders();
+    // showSlaiders();
+
+    const slidesWrapper = document.querySelector('.offer__slider-wrapper');
+    const slidesField = document.querySelector('.offer__slider-inner');
+    const width = window.getComputedStyle(slidesWrapper).width;
+    slidesField.style.width = 100 * sliders.length + '%';
+    let offset = 0;
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
+    slidesWrapper.style.overflow = 'hidden';
+    sliders.forEach(slide => {
+        slide.style.width = width;
+    });
+    current.textContent = ('0' + (index + 1)).slice(-2);
+    prev.addEventListener('click', () => {
+        if (offset == 0) {
+            offset = +width.slice(0, width.length - 2) * (sliders.length - 1);
+        } else {
+            offset -= +width.slice(0, width.length - 2);
+        }
+        slidesField.style.transform = `translateX(-${offset}px)`;
+        if (index == 0) {
             index = sliders.length - 1;
+        } else {
+            index--;
+        }  
+        // current.textContent = ('0' + (index + 1)).slice(-2);
+        if (sliders.length < 10) {
+            current.textContent = `0${index + 1}`;
+        } else {
+            current.textContent = index + 1;
         }
-        hideSlaiders();
-        showSlaiders(index);
-    });
-    offer__slider__next.addEventListener('click', () => {
-        index++;
-        if (index == sliders.length) {
+    })
+    next.addEventListener('click', () => {
+        if (offset == +width.slice(0, width.length - 2) * (sliders.length - 1)) {
+            offset = 0;
+        } else {
+            offset += +width.slice(0, width.length - 2);
+        }
+        slidesField.style.transform = `translateX(-${offset}px)`;
+        if (index == sliders.length - 1) {
             index = 0;
+        } else {
+            index++;
+        }  
+        // current.textContent = ('0' + (index + 1)).slice(-2);
+        if (sliders.length < 10) {
+            current.textContent = `0${index + 1}`;
+        } else {
+            current.textContent = index + 1;
         }
-        hideSlaiders();
-        showSlaiders(index);
-    });
-    hideSlaiders();
-    showSlaiders();
-
-
-    
+    })
 });
