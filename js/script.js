@@ -498,9 +498,9 @@ window.addEventListener('DOMContentLoaded', () => {
     current.textContent = ('0' + (slideIndex + 1)).slice(-2);
     prev.addEventListener('click', () => {
         if (offset == 0) {
-            offset = +width.slice(0, width.length - 2) * (slides.length - 1);
+            offset = removeLetters(width) * (slides.length - 1);
         } else {
-            offset -= +width.slice(0, width.length - 2);
+            offset -= removeLetters(width);
         }
         slidesField.style.transform = `translateX(-${offset}px)`;
         if (slideIndex == 0) {
@@ -512,10 +512,10 @@ window.addEventListener('DOMContentLoaded', () => {
         dotsOpasity(slideIndex);
     });
     next.addEventListener('click', () => {
-        if (offset == +width.slice(0, width.length - 2) * (slides.length - 1)) {
+        if (offset == removeLetters(width) * (slides.length - 1)) {
             offset = 0;
         } else {
-            offset += +width.slice(0, width.length - 2);
+            offset += removeLetters(width);
         }
         slidesField.style.transform = `translateX(-${offset}px)`;
         if (slideIndex == slides.length - 1) {
@@ -529,12 +529,12 @@ window.addEventListener('DOMContentLoaded', () => {
     document.querySelectorAll('[data-slide-to]').forEach(el => {
         el.addEventListener('click', (event) => {
             slideIndex = event.target.getAttribute('data-slide-to') - 1;
-            offset = +width.slice(0, width.length - 2) * (slideIndex);
+            offset = removeLetters(width) * (slideIndex);
             slidesField.style.transform = `translateX(-${offset}px)`;
             current.textContent = slidesLength(slideIndex);
             dotsOpasity(slideIndex);
         })
-    })
+    });
 
     function slidesLength(slideIndex) {
         if (slides.length < 10) {
@@ -546,6 +546,8 @@ window.addEventListener('DOMContentLoaded', () => {
     function dotsOpasity(slideIndex) {
         dots.forEach(dot => dot.style.opacity = '.3');
         dots[slideIndex].style.opacity = '1';
-    }
-
+    };
+    function removeLetters(width) {
+        return +width.match(/\d+/);
+    };
 });
