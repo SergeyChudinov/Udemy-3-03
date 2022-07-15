@@ -34,6 +34,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const tabs = document.querySelectorAll('.tabheader__item'),
         tabsContsnt = document.querySelectorAll('.tabcontent'),
         tabsParent = document.querySelector('.tabheader__items');
+
     function hideTabContent() {
         tabsContsnt.forEach(el => {
             el.classList.add('hide');
@@ -43,11 +44,13 @@ window.addEventListener('DOMContentLoaded', () => {
             el.classList.remove('tabheader__item_active');
         })
     };
+
     function showTabContent(i = 0) {
         tabsContsnt[i].classList.remove('hide');
         tabsContsnt[i].classList.add('fade');
         tabs[i].classList.add('tabheader__item_active');
     }
+
     function eventListener() {
         tabsParent.addEventListener('click', event => {
             if (!event.target.closest('.tabheader__item')) {
@@ -132,6 +135,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // const deadLine = '2022-06-28 17:29';
 
     const deadLine = '2022-08-2 20:00';
+
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
             days = Math.floor((t / (1000 * 60 * 60 * 24))),
@@ -146,6 +150,7 @@ window.addEventListener('DOMContentLoaded', () => {
             seconds: seconds
         }
     }
+
     function getZero(num) {
         if (num >= 0 && num < 10) {
             return `0${num}`;
@@ -153,6 +158,7 @@ window.addEventListener('DOMContentLoaded', () => {
             return num;
         }
     }
+
     function setClock(selector, endtime) {
         const timer = document.querySelector(selector),
             days = timer.querySelector('#days'),
@@ -161,6 +167,7 @@ window.addEventListener('DOMContentLoaded', () => {
             seconds = timer.querySelector('#seconds');
         timeInterval = setInterval(updateClock, 1000);
         updateClock();
+
         function updateClock() {
             const t = getTimeRemaining(endtime);
             // days.textContent = ('0' + t.days).slice(-2);
@@ -184,6 +191,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const modalTrigger = document.querySelectorAll('[data-modal]');
     const modal = document.querySelector('.modal');
+
     function openModal() {
         modal.classList.add('show');
         document.body.style.overflow = 'hidden';
@@ -192,6 +200,7 @@ window.addEventListener('DOMContentLoaded', () => {
     }
     let thanksModal;
     let prevModalDialog;
+
     function closeModal() {
         modal.classList.remove('show');
         document.body.style.overflow = '';
@@ -214,6 +223,7 @@ window.addEventListener('DOMContentLoaded', () => {
         }
     });
     modalTimerId = setTimeout(openModal, 500000);
+
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
             openModal();
@@ -322,6 +332,7 @@ window.addEventListener('DOMContentLoaded', () => {
         });
         return await res.json();
     };
+
     function bindPostData(form) {
         form.addEventListener('submit', (event) => {
             event.preventDefault();
@@ -340,24 +351,25 @@ window.addEventListener('DOMContentLoaded', () => {
             //     object[key] = value;
             // });
             // const json = JSON.stringify(object);
-            const json =JSON.stringify(Object.fromEntries(formData.entries()));
+            const json = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(json);
             // Для тестирования
             // setTimeout(() => {
             //     request.send(json);
             // }, 3000);
             postData('http://localhost:3000/requests', json)
-            .then(data => {
-                console.log(data);
-                showThanksModal(message.success);
-            }).catch(() => {
-                showThanksModal(message.failure);
-            }).finally(() => {
-                form.reset();
-                statusMessage.remove();
-            })
+                .then(data => {
+                    console.log(data);
+                    showThanksModal(message.success);
+                }).catch(() => {
+                    showThanksModal(message.failure);
+                }).finally(() => {
+                    form.reset();
+                    statusMessage.remove();
+                })
         });
     }
+
     function showThanksModal(message) {
         prevModalDialog = document.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
@@ -376,15 +388,16 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }, 40000)
     }
+
     function modelDialog() {
         thanksModal.remove();
         prevModalDialog.classList.remove('hide');
     }
-    
+
     const slides = document.querySelectorAll('.offer__slide');
     const prev = document.querySelector('.offer__slider-prev');
     const next = document.querySelector('.offer__slider-next');
-    const current = document.querySelector('#current'); 
+    const current = document.querySelector('#current');
     const total = document.querySelector('#total');
     // total.textContent = ('0' + slides.length).slice(-2);
     if (slides.length < 10) {
@@ -432,7 +445,7 @@ window.addEventListener('DOMContentLoaded', () => {
             transition: opacity .6s ease;
         `;
         if (i == 0) {
-            dot.style.opacity = 1;         
+            dot.style.opacity = 1;
         }
         indicators.append(dot);
         dots.push(dot);
@@ -507,7 +520,7 @@ window.addEventListener('DOMContentLoaded', () => {
             slideIndex = slides.length - 1;
         } else {
             slideIndex--;
-        }  
+        }
         current.textContent = slidesLength(slideIndex);
         dotsOpasity(slideIndex);
     });
@@ -522,7 +535,7 @@ window.addEventListener('DOMContentLoaded', () => {
             slideIndex = 0;
         } else {
             slideIndex++;
-        }  
+        }
         current.textContent = slidesLength(slideIndex);
         dotsOpasity(slideIndex);
     });
@@ -543,11 +556,89 @@ window.addEventListener('DOMContentLoaded', () => {
             return slideIndex + 1;
         }
     };
+
     function dotsOpasity(slideIndex) {
         dots.forEach(dot => dot.style.opacity = '.3');
         dots[slideIndex].style.opacity = '1';
     };
+
     function removeLetters(width) {
         return +width.match(/\d+/);
     };
+
 });
+
+
+const gender = document.querySelectorAll('.calculating__choose');
+const genderItems = document.querySelectorAll('#gender .calculating__choose-item');
+const activity = document.querySelectorAll('.calculating__choose_big .calculating__choose-item');
+const result = document.querySelector('.calculating__result span');
+// const activityFactorArray = [1.375, 1.55, 1.725, 1.9];
+let ratio;
+gender.forEach(el => {
+    el.addEventListener('click', (event) => {
+        if (event.target.closest('.calculating__choose-item')) {
+            genderItems.forEach((item, index) => {
+                if (event.target == item) {
+                    deleteActivity(genderItems);
+                    setActivity(index, genderItems);
+                }
+            });            
+        }
+        if (event.target.closest('.calculating__choose-item')) {
+            activity.forEach((item, index) => {
+                if (event.target == item) {
+                    deleteActivity(activity);
+                    setActivity(index, activity);
+                    setActivityIndex(index);
+                }
+            });           
+        }
+    });
+});
+function deleteActivity(items) {
+    items.forEach(el => {
+        el.classList.remove('calculating__choose-item_active');
+    }) 
+};
+function setActivity(i = 0, items) {
+    items[i].classList.add('calculating__choose-item_active');   
+};
+function setActivityIndex(index) {
+    // ratio = +activityFactorArray[index];
+    ratio = activity[index].getAttribute('data-ratio');
+}
+deleteActivity(genderItems);
+setActivity(0, genderItems);
+deleteActivity(activity);
+setActivity(0, activity);
+setActivityIndex(0);
+let height;
+let weight;
+let age;
+document.querySelector('#height').addEventListener('input', (event) => {
+    height = event.target.value;
+}); 
+document.querySelector('#weight').addEventListener('input', (event) => {
+    weight = event.target.value;
+}); 
+document.querySelector('#age').addEventListener('input', (event) => {
+    age = event.target.value;
+}); 
+result.textContent = 0;
+document.querySelector('#button').addEventListener('click', calcTotal);
+function calcTotal() {
+    if (!height || !weight || !age) {
+        result.textContent = 
+        '____';
+        return;
+    }
+    if (document.querySelector('#female').classList.contains('calculating__choose-item_active')) {
+        result.textContent = 
+        Math.floor((447.6 + (9.2 * weight) + (3.1 * height) - (4.3 * age)) * ratio);
+    } else {
+        result.textContent = 
+        Math.floor((88.36 + (13.4 * weight) + (4.8 * height) - (5.7 * age)) * ratio);
+    }
+}
+calcTotal();
