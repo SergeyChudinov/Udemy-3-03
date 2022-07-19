@@ -1,45 +1,53 @@
-function modal() {
-    // Module window
-    const modalTrigger = document.querySelectorAll('[data-modal]');
-    const modal = document.querySelector('.modal');
-
-    function openModal() {
-        modal.classList.add('show');
-        document.body.style.overflow = 'hidden';
-        clearTimeout(modalTimerId);
-        window.removeEventListener('scroll', showModalByScroll);
+function openModal(modalSelector, modalTimerId) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.add('show');
+    document.body.style.overflow = 'hidden';
+    console.log(modalTimerId);
+    if (modalTimerId) {                   //    !!!!!!!!!!!!!!!!!
+        clearTimeout(modalTimerId); 
     }
+                                             
+    window.removeEventListener('scroll', showModalByScroll);    //    !!!!!!!!!!!!!!!!!
+}
+
+function closeModal(modalSelector) {
+    const modal = document.querySelector(modalSelector);
+    modal.classList.remove('show');
+    document.body.style.overflow = '';
+    // if (thanksModal) {
+    //     // modelDialog();
+    //     clearTimeout(modelDialogTimer);  !!!!!!!!!!
+    // }
+};
+function modal(triggerSelector, modalSelector, modalTimerId) {
+    // Module
+    const modalTrigger = document.querySelectorAll(triggerSelector);
+    const modal = document.querySelector(modalSelector);
     let thanksModal;
     let prevModalDialog;
 
-    function closeModal() {
-        modal.classList.remove('show');
-        document.body.style.overflow = '';
-        if (thanksModal) {
-            // modelDialog();
-            clearTimeout(modelDialogTimer);
-        }
-    };
+
     modalTrigger.forEach(el => {
-        el.addEventListener('click', openModal);
+        el.addEventListener('click', () => openModal(modalSelector, modalTimerId));
     });
     modal.addEventListener('click', event => {
-        if (event.target.closest('[data-close]') || !event.target.closest('.modal__dialog')) {
-            closeModal();
+        if (event.target.closest('[data-close]') || !event.target.closest('.modal__dialog')) { // e.target === modal
+            closeModal(modalSelector);
         }
     });
     document.addEventListener('keydown', (e) => {
         if (e.code === 'Escape' && modal.classList.contains('show')) {
-            closeModal();
+            closeModal(modalSelector);
         }
     });
-    modalTimerId = setTimeout(openModal, 500000);
 
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
-            openModal();
+            openModal(modalSelector, modalTimerId);
         }
     }
     window.addEventListener('scroll', showModalByScroll);
 }
-module.exports = modal;
+export default modal;
+export {openModal};
+export {closeModal};
