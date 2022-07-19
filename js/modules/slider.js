@@ -1,19 +1,32 @@
-function slider() {
+function slider({container, slide, nextArrow, prevArrow, totalCounter, currentCounter, wrapper, field}) {
     // Slider
-    const slides = document.querySelectorAll('.offer__slide');
-    const prev = document.querySelector('.offer__slider-prev');
-    const next = document.querySelector('.offer__slider-next');
-    const current = document.querySelector('#current');
-    const total = document.querySelector('#total');
-    // total.textContent = ('0' + slides.length).slice(-2);
+
+    let offset = 0;
+    let slideIndex = 0;
+    const slides = document.querySelectorAll(slide);
+    const slider = document.querySelector(container);
+    const prev = document.querySelector(prevArrow);
+    const next = document.querySelector(nextArrow);
+    const total = document.querySelector(totalCounter);
+    const current = document.querySelector(currentCounter);
+    const slidesWrapper = document.querySelector(wrapper);
+    const width = window.getComputedStyle(slidesWrapper).width;
+    const slidesField = document.querySelector(field);
+    
+    current.textContent = ('0' + (slideIndex + 1)).slice(-2);
     if (slides.length < 10) {
         total.textContent = `0${slides.length}`;
     } else {
         total.textContent = slides.length;
     }
-    let slideIndex = 0;
+    slidesField.style.width = 100 * slides.length + '%';
+    slidesField.style.display = 'flex';
+    slidesField.style.transition = '0.5s all';
+    slidesWrapper.style.overflow = 'hidden';
+    slides.forEach(slide => {
+        slide.style.width = width;
+    });
 
-    const slider = document.querySelector('.offer__slider');
     slider.style.position = 'relative';
     const indicators = document.createElement('ol');
     const dots = [];
@@ -57,70 +70,6 @@ function slider() {
         dots.push(dot);
     }
 
-
-    // function hideSlaiders() {
-    //     slides.forEach(el => {
-    //         el.classList.add('hide');
-    //     });
-    // };
-    // function showSlaiders(i = 0) {
-    //     slides[i].classList.remove('hide');
-    //     // current.textContent = ('0' + (i + 1)).slice(-2);
-    //     if (slides.length < 10) {
-    //         current.textContent = `0${i + 1}`;
-    //     } else {
-    //         current.textContent = i + 1;
-    //     }
-    // };
-    // prev.addEventListener('click', () => {
-    //     slideIndex--;
-    //     if (slideIndex < 0) {
-    //         slideIndex = slides.length - 1;
-    //     }
-    //     hideSlaiders();
-    //     showSlaiders(slideIndex);
-    //     dots.forEach(dot => dot.style.opacity = '.3');
-    //     dots[slideIndex].style.opacity = '1';
-    // });
-    // next.addEventListener('click', () => {
-    //     slideIndex++;
-    //     if (slideIndex == slides.length) {
-    //         slideIndex = 0;
-    //     }
-    //     hideSlaiders();
-    //     showSlaiders(slideIndex);
-    //     dots.forEach(dot => dot.style.opacity = '.3');
-    //     dots[slideIndex].style.opacity = '1';
-    // });
-    // hideSlaiders();
-    // showSlaiders();
-    // document.querySelectorAll('[data-slide-to]').forEach(el => {
-    //     el.addEventListener('click', (event) => {
-    //         slideIndex = event.target.getAttribute('data-slide-to') - 1;
-    //         hideSlaiders();
-    //         showSlaiders(slideIndex);
-    //         // current.textContent = slidesLength(slideIndex);
-    //         dotsOpasity(slideIndex);
-    //     })
-    // });
-    // function dotsOpasity(slideIndex) {
-    //     dots.forEach(dot => dot.style.opacity = '.3');
-    //     dots[slideIndex].style.opacity = '1';
-    // };
-
-
-    const slidesWrapper = document.querySelector('.offer__slider-wrapper');
-    const slidesField = document.querySelector('.offer__slider-inner');
-    const width = window.getComputedStyle(slidesWrapper).width;
-    slidesField.style.width = 100 * slides.length + '%';
-    let offset = 0;
-    slidesField.style.display = 'flex';
-    slidesField.style.transition = '0.5s all';
-    slidesWrapper.style.overflow = 'hidden';
-    slides.forEach(slide => {
-        slide.style.width = width;
-    });
-    current.textContent = ('0' + (slideIndex + 1)).slice(-2);
     prev.addEventListener('click', () => {
         if (offset == 0) {
             offset = removeLetters(width) * (slides.length - 1);
@@ -175,4 +124,4 @@ function slider() {
         return +width.match(/\d+/);
     };
 }
-module.exports = slider;
+export default slider;

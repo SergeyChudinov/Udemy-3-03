@@ -1,6 +1,9 @@
-function forms() {
+import {openModal, closeModal} from './modal';
+import {postData} from '../services/services';
+
+function forms(formSelector, modalTimerId) {
     // Forms
-    const forms = document.querySelectorAll('form');
+    const forms = document.querySelectorAll(formSelector);
     const message = {
         loading: 'img/form/spinner.svg',
         success: 'Спасибо! Скоро мы с вами свяжемся',
@@ -9,16 +12,7 @@ function forms() {
     forms.forEach(item => {
         bindPostData(item);
     });
-    const postData = async (url, data) => {
-        const res = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json'
-            },
-            body: data
-        });
-        return await res.json();
-    };
+
 
     function bindPostData(form) {
         form.addEventListener('submit', (event) => {
@@ -30,14 +24,10 @@ function forms() {
                 display: block;
                 margin: 0 auto;
             `;
-            form.after(statusMessage);
+            // form.after(statusMessage);
+            form.insertAdjacentElement('afterend', statusMessage);
             const formData = new FormData(form);
             console.log(formData);
-            // const object = {};
-            // formData.forEach(function (value, key) {
-            //     object[key] = value;
-            // });
-            // const json = JSON.stringify(object);
             const json = JSON.stringify(Object.fromEntries(formData.entries()));
             console.log(json);
             // Для тестирования
@@ -48,11 +38,12 @@ function forms() {
                 .then(data => {
                     console.log(data);
                     showThanksModal(message.success);
+                    statusMessage.remove();
                 }).catch(() => {
                     showThanksModal(message.failure);
                 }).finally(() => {
                     form.reset();
-                    statusMessage.remove();
+                    // statusMessage.remove();
                 })
         });
     }
@@ -60,7 +51,7 @@ function forms() {
     function showThanksModal(message) {
         prevModalDialog = document.querySelector('.modal__dialog');
         prevModalDialog.classList.add('hide');
-        openModal();
+        openModal('.modal', modalTimerId);
         thanksModal = document.createElement('div');
         thanksModal.classList.add('modal__dialog');
         thanksModal.innerHTML = `
@@ -70,16 +61,16 @@ function forms() {
             </div>
         `;
         document.querySelector('.modal').append(thanksModal);
-        modelDialogTimer = setTimeout(() => {
+        setTimeout(() => { // modelDialogTimer = 
             // modelDialog();
-            closeModal();
             thanksModal.remove();
             prevModalDialog.classList.remove('hide');
-        }, 40000)
+            closeModal('.modal');
+        }, 4000)
     }
     // function modelDialog() {
     //     thanksModal.remove();
     //     prevModalDialog.classList.remove('hide');
     // }
 }
-module.exports = forms;
+export default forms;
