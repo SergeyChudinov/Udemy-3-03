@@ -2,12 +2,9 @@ function openModal(modalSelector, modalTimerId) {
     const modal = document.querySelector(modalSelector);
     modal.classList.add('show');
     document.body.style.overflow = 'hidden';
-    console.log(modalTimerId);
     if (modalTimerId) {                   //    !!!!!!!!!!!!!!!!!
         clearTimeout(modalTimerId); 
     }
-                                             
-    window.removeEventListener('scroll', showModalByScroll);    //    !!!!!!!!!!!!!!!!!
 }
 
 function closeModal(modalSelector) {
@@ -44,6 +41,7 @@ function modal(triggerSelector, modalSelector, modalTimerId) {
     function showModalByScroll() {
         if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
             openModal(modalSelector, modalTimerId);
+            window.removeEventListener('scroll', showModalByScroll); 
         }
     }
     window.addEventListener('scroll', showModalByScroll);
