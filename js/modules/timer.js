@@ -1,6 +1,6 @@
 function timer(id, deadline) {
     // Timer
-
+    console.log(deadline)
     
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
